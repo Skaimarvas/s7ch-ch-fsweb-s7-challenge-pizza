@@ -2,7 +2,7 @@ import React from "react";
 
 const OrderForm = () => {
   return (
-    <div>
+    <div className=" bg-white">
       <form id="pizza-form">
         <label>
           {" "}

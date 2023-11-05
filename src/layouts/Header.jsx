@@ -1,5 +1,6 @@
 import React from "react";
 import logo from "../Assets/logo.svg";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 const Header = () => {
   const imageStyle1 = {
@@ -8,13 +9,19 @@ const Header = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-full">
+    <div className="mt-10" style={{ backgroundColor: "#ce2829" }}>
       <img
-        className="mx-auto my-auto absolute"
+        className="mx-auto my-auto"
         src={logo}
         alt="logo"
-        style={imageStyle}
+        style={imageStyle1}
       />
+      <Link to="/">
+        {" "}
+        <p>Anasayfa</p>{" "}
+      </Link>
+      <p>Seçenekler</p>
+      <p>Sipariş Oluştur</p>
     </div>
   );
 };
