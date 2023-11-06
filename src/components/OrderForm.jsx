@@ -24,25 +24,21 @@ const emptyOrder = {
   addIng: "",
   orderNote: "",
   extra: "",
-  total: "",
+  totalPrice: "",
 };
 
-const OrderForm = ({ start = 1, order = emptyOrder }) => {
+const OrderForm = ({ order = emptyOrder }) => {
   const [counter, setCounter] = useState(1);
-
-  const [extra, setExtra] = useState(0);
 
   const [size, setSize] = useState("md");
 
   const [price, setPrice] = useState(85.5);
 
-  const [total, setTotal] = useState(price * start);
-
-  const [selectedToppings, setSelectedtoppings] = useState([]);
+  const [selecttops, setSelecttops] = useState([]);
 
   const [dough, setDough] = useState("nl");
 
-  const [purorder, setPurorder] = useState(emptyOrder);
+  const [purorder, setPurorder] = useState(order);
 
   const inputChangeHandler = (e) => {
     const { name, value, type, checked } = e.target;
@@ -52,53 +48,23 @@ const OrderForm = ({ start = 1, order = emptyOrder }) => {
         ? [...purorder.addIng, name]
         : purorder.addIng.filter((item) => item !== name);
 
-      setPurorder({
-        ...purorder,
+      setPurorder((prevPurorder) => ({
+        ...prevPurorder,
         addIng: updatedAddIng,
         extra: updatedAddIng.length * 5,
-      });
+      }));
+    } else {
+      setPurorder((prevPurorder) => ({
+        ...prevPurorder,
+        [name]: value,
+        extra: prevPurorder.extra,
+      }));
     }
-    setPurorder({ ...purorder, [name]: value });
+
     console.log("Checked", checked);
     console.log("Name", name);
     console.log("Value", value);
   };
-
-  const toggleTopping = (tops) => {
-    if (selectedToppings.includes(tops)) {
-      setSelectedtoppings(selectedToppings.filter((item) => tops !== item));
-      setExtra(extra - 5);
-    } else {
-      setSelectedtoppings([...selectedToppings, tops]);
-      setExtra(extra + 5);
-    }
-  };
-  // const toggleTopping = (tops) => {
-  //   if (selectedToppings.includes(tops)) {
-  //     setSelectedtoppings((prevToppings) => prevToppings.filter((item) => tops !== item));
-  //     setExtra(extra - 5);
-  //   } else {
-  //     setSelectedtoppings((prevToppings) => [...prevToppings, tops]);
-  //     setExtra(extra + 5);
-  //   }
-  // }; Burası önemli tekrar gözden geçir
-
-  // const formSubmit = (e)=> {
-  //   e.preventDefault()
-  //   axios
-  //   .post("https://reqres.in/api/users/", order)
-  //   .then((res)=> {
-  //     if (res.status === 201) {
-  //       console.log("Sipariş başarıyla oluşturuldu.");
-  //       console.log("Api tarafından dönen veri:", res.data, res.status);
-
-  //     }
-  //   })
-  //   .catch((err)=>{
-  //     console.error{"Sipariş oluşturulurken bir hata oluştu", err}
-  //   })
-
-  // }
 
   const addOrder = () => {
     setCounter(counter + 1);
@@ -108,34 +74,22 @@ const OrderForm = ({ start = 1, order = emptyOrder }) => {
   };
 
   useEffect(() => {
-    if (dough === "th") {
-      if (size === "sm") {
-        setTotal(price * counter * 0.8 * 0.8 + extra);
-      } else if (size === "md") {
-        setTotal(price * counter * 0.8 + extra);
-      } else {
-        setTotal(price * counter * 0.8 * 1.2 + extra);
-      }
-    } else if (dough === "nl") {
-      if (size === "sm") {
-        setTotal(price * counter * 0.8 + extra);
-      } else if (size === "md") {
-        setTotal(price * counter + extra);
-      } else {
-        setTotal(price * counter * 1.2 + extra);
-      }
-    } else {
-      if (size === "sm") {
-        setTotal(price * counter * 1.2 * 0.8 + extra);
-      } else if (size === "md") {
-        setTotal(price * counter * 1.2 + extra);
-      } else {
-        setTotal(price * counter * 1.2 * 1.2 + extra);
-      }
-    }
-
     console.log("Purorder", purorder);
-  }, [price, counter, extra, selectedToppings, size, dough, purorder]);
+  }, [purorder]);
+
+  useEffect(() => {
+    const doughFactor = dough === "th" ? 0.8 : dough === "nl" ? 1 : 1.2;
+    const sizeFactor = size === "sm" ? 0.8 : size === "md" ? 1 : 1.2;
+    const newTotal =
+      price * counter * doughFactor * sizeFactor + purorder.extra;
+
+    setPurorder((prevPurorder) => ({
+      ...prevPurorder,
+      totalPrice: newTotal,
+    }));
+    console.log("extra", purorder.extra);
+    console.log("Purorder", purorder);
+  }, [price, counter, size, dough, purorder.extra]);
 
   return (
     <div className="bg-white">
@@ -150,8 +104,12 @@ const OrderForm = ({ start = 1, order = emptyOrder }) => {
                 id="radio-sm"
                 name="size"
                 type="radio"
+                checked={size === "sm" ? true : false}
                 value={"sm"}
-                onChange={inputChangeHandler}
+                onChange={(e) => {
+                  setSize(e.target.value);
+                  inputChangeHandler(e);
+                }}
               />
               Küçük
             </div>
@@ -160,8 +118,12 @@ const OrderForm = ({ start = 1, order = emptyOrder }) => {
                 id="radio-md"
                 name="size"
                 type="radio"
+                checked={size === "md" ? true : false}
                 value={"md"}
-                onChange={inputChangeHandler}
+                onChange={(e) => {
+                  setSize(e.target.value);
+                  inputChangeHandler(e);
+                }}
               />
               Orta
             </div>
@@ -171,8 +133,12 @@ const OrderForm = ({ start = 1, order = emptyOrder }) => {
                 id="radio-lg"
                 name="size"
                 type="radio"
+                checked={size === "lg" ? true : false}
                 value={"lg"}
-                onChange={inputChangeHandler}
+                onChange={(e) => {
+                  setSize(e.target.value);
+                  inputChangeHandler(e);
+                }}
               />
               Büyük
             </div>
@@ -212,7 +178,6 @@ const OrderForm = ({ start = 1, order = emptyOrder }) => {
                 type="checkbox"
                 name={top}
                 onClick={(e) => {
-                  toggleTopping(top);
                   inputChangeHandler(e);
                 }}
               />{" "}
@@ -251,8 +216,11 @@ const OrderForm = ({ start = 1, order = emptyOrder }) => {
             <div>+</div>
           </button>
         </div>
-        <div> Ek Malzemeler {extra}₺ </div>
-        <div> Toplam Fiyat {total.toFixed(2)}₺ </div>
+        <div> Ek Malzemeler {purorder.extra ? purorder.extra : "0"}₺ </div>
+        <div>
+          {" "}
+          Toplam Fiyat {purorder.totalPrice ? purorder.totalPrice : "0"}₺{" "}
+        </div>
       </div>
     </div>
   );
