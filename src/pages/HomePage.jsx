@@ -4,12 +4,8 @@ import logo from "../Assets/logo.svg";
 
 const HomePage = () => {
   const imageStyle = {
-    width: "900px",
-    height: "350px",
-    position: "fixed",
-    bottom: "0",
-    left: "50%",
-    transform: "translateX(-50%)",
+    maxWidth: "900px",
+    maxHeight: "350px",
   };
   const imageStyle1 = {
     width: "250px",
@@ -18,40 +14,41 @@ const HomePage = () => {
 
   return (
     <>
-      <div className="mt-9 flex items-center justify-center">
-        <div className=" mx-auto my-auto absolute">
-          <img src={logo} alt="logo" style={imageStyle1} />{" "}
-        </div>
-      </div>
-      <div
-        style={{
-          fontFamily: "Bebas Neue, sans-serif",
-          fontSize: "3.5rem",
-          lineHeight: "60px",
-          color: "white",
-          marginTop: "6rem",
-        }}
-      >
-        {" "}
-        <p> KOD ACIKTIRIR </p>
-        <p> PİZZA, DOYURUR</p>{" "}
-      </div>
-      <Link to="/OrderPage" exact>
+      <div className="mt-10 flex flex-col items-center">
+        <img className="mx-auto" src={logo} alt="logo" style={imageStyle1} />{" "}
         <div
+          style={{
+            fontFamily: "Bebas Neue, sans-serif",
+            fontSize: "3.5rem",
+            lineHeight: "60px",
+            color: "white",
+          }}
+        >
+          {" "}
+          <p> KOD ACIKTIRIR </p>
+          <p> PİZZA, DOYURUR</p>{" "}
+        </div>
+        <div
+          className="mt-10 mx-auto"
           style={{
             fontFamily: "Barlow , sans-serif",
             backgroundColor: "#FDC913",
             borderRadius: "50px",
-            marginLeft: "34rem",
-            marginRight: "34rem",
-            marginTop: "1rem",
-            padding: "0.5rem 2rem",
+            width: "6.8rem",
+            padding: "0.5rem 1rem",
           }}
         >
-          <p> ACIKTIM</p>{" "}
+          <Link to="/OrderPage" exact>
+            <p> ACIKTIM</p>
+          </Link>
         </div>
-      </Link>
-      <img className="mb-0" src={banner} style={imageStyle} />
+      </div>
+
+      <img
+        className="fixed bottom-0 left-1/2 -translate-x-1/2"
+        style={imageStyle}
+        src={banner}
+      />
     </>
   );
 };
