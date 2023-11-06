@@ -19,8 +19,8 @@ const toppings = [
 ];
 
 const emptyOrder = {
-  size: "",
-  dough: "",
+  size: "md",
+  dough: "nl",
   addIng: "",
   orderNote: "",
   extra: "",
@@ -73,6 +73,20 @@ const OrderForm = ({ order = emptyOrder }) => {
     setCounter(counter - 1);
   };
 
+  const formSubmit = (e) => {
+    e.preventDefault();
+    console.log("FORM SUBMİT EDİLDİ");
+    console.log("Order", purorder);
+
+    axios
+      .post("https://reqres.in/api/users", purorder)
+      .then((res) => {
+        console.log("Data", res.data);
+        console.log("Status", res.status);
+      })
+      .catch((err) => console.log("Error", err));
+  };
+
   useEffect(() => {
     console.log("Purorder", purorder);
   }, [purorder]);
@@ -93,7 +107,7 @@ const OrderForm = ({ order = emptyOrder }) => {
 
   return (
     <div className="bg-white">
-      <form id="pizza-form">
+      <form id="pizza-form" onSubmit={formSubmit}>
         <div className="flex justify-between">
           <div className="flex flex-col">
             <label>
@@ -198,30 +212,41 @@ const OrderForm = ({ order = emptyOrder }) => {
             placeholder="Siparişine eklemek istediğin bir not var mı?"
           />
         </label>
+        <div className="flex justify-between">
+          <div>
+            <button
+              className="bg-blue-500 text-white"
+              onClick={(e) => {
+                remOrder();
+                e.preventDefault();
+              }}
+            >
+              {" "}
+              <div>-</div>{" "}
+            </button>
+            {counter}
+            <button
+              className="bg-blue-500 text-white"
+              onClick={(e) => {
+                addOrder();
+                e.preventDefault();
+              }}
+            >
+              {" "}
+              <div>+</div>
+            </button>
+          </div>
+          <div> Ek Malzemeler {purorder.extra ? purorder.extra : "0"}₺ </div>
+          <div>
+            {" "}
+            Toplam Fiyat {purorder.totalPrice ? purorder.totalPrice : "0"}₺{" "}
+          </div>
+        </div>
         <button id="submit-button" type="submit">
           {" "}
           Sipariş Ver
         </button>
       </form>
-
-      <div className="flex justify-between">
-        <div>
-          <button className="bg-blue-500 text-white" onClick={remOrder}>
-            {" "}
-            <div>-</div>{" "}
-          </button>
-          {counter}
-          <button className="bg-blue-500 text-white" onClick={addOrder}>
-            {" "}
-            <div>+</div>
-          </button>
-        </div>
-        <div> Ek Malzemeler {purorder.extra ? purorder.extra : "0"}₺ </div>
-        <div>
-          {" "}
-          Toplam Fiyat {purorder.totalPrice ? purorder.totalPrice : "0"}₺{" "}
-        </div>
-      </div>
     </div>
   );
 };
