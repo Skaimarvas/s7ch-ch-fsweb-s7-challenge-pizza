@@ -82,15 +82,15 @@ Sarı #FDC913, Açık Gri: #5F5F5F, Koyu Gri #292929, Kırmızı #CE2829, Bej: #
 MVP aşamasına getirdiğiniz (minimum viable product), aşağıdaki gereksinimlerin hepsini sağlamalıdır.
 
 - [x] Route u "/" olan ve içinde hero alanındaki buton ile forma linklenen bir anasayfa. (button, nav bar, ya da herhangi bir link kabul edilebilir ama id'si "order-pizza" olmalı)
-- [ ] Route u "/pizza" olan bir sipariş formu
-- [ ] Id'si "pizza-form" olan bir form
-- [ ] Id'si "name-input" olan bir isim inputu. (İsim alanı tasarımda görünmüyor olabilir. Form'da notlar alanının üzerine ekleyin)
-- [ ] İsim için bir doğrulama(validation) ve hata mesajı (İsim en az 2 karakter olmalıdır)
+- [x] Route u "/pizza" olan bir sipariş formu
+- [x] Id'si "pizza-form" olan bir form
+- [x] Id'si "name-input" olan bir isim inputu. (İsim alanı tasarımda görünmüyor olabilir. Form'da notlar alanının üzerine ekleyin)
+- [x] İsim için bir doğrulama(validation) ve hata mesajı (İsim en az 2 karakter olmalıdır)
 - [ ] Pizza boyutunun seçilebileceği "size-dropdown" id'li bir dropdown
 - [ ] Malzemeler için bir checklist (checkbox) - en az 4 adet ve en fazla 10 adet seçim yapılmalı
-- [ ] Özel seçimler için bir text input "special-text" id'li
-- [ ] "order-button" id'li bir "Sipariş Ver" butonu. Bu buton tıklandığında form gönderilerek girilen bilgileri içerecek bir veritabanı kaydı oluşturulacak.
-- [ ] Sipariş özeti console'a yazdırılacak.
+- [x] Özel seçimler için bir text input "special-text" id'li
+- [x] "order-button" id'li bir "Sipariş Ver" butonu. Bu buton tıklandığında form gönderilerek girilen bilgileri içerecek bir veritabanı kaydı oluşturulacak.
+- [x] Sipariş özeti console'a yazdırılacak.
 
 Not - Form'un payloadu, veri **örnek olarak** şu şekilde olabilir. **Kendiniz de bu yapıyı değiştirebilirsiniz.**
 

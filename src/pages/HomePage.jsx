@@ -38,7 +38,7 @@ const HomePage = () => {
             padding: "0.5rem 1rem",
           }}
         >
-          <Link to="/OrderPage" exact>
+          <Link to="/pizza" exact>
             <p> ACIKTIM</p>
           </Link>
         </div>

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
+import * as Yup from "yup";
 
 const toppings = [
   "Pepperoni",
@@ -21,32 +23,45 @@ const toppings = [
 const emptyOrder = {
   size: "md",
   dough: "nl",
-  addIng: "",
+  addIng: [],
+  name: "",
   orderNote: "",
   extra: "",
   totalPrice: "",
 };
 
-const OrderForm = ({ order = emptyOrder }) => {
+const OrderForm = ({ order = emptyOrder, fetchorders }) => {
   const [counter, setCounter] = useState(1);
 
   const [size, setSize] = useState("md");
 
   const [price, setPrice] = useState(85.5);
 
-  const [selecttops, setSelecttops] = useState([]);
-
   const [dough, setDough] = useState("nl");
 
   const [purorder, setPurorder] = useState(order);
+
+  const [formErrors, setFormErrors] = useState({
+    size: "",
+    dough: "",
+    addIng: "",
+    name: "",
+    orderNote: "",
+    extra: "",
+    totalPrice: "",
+  });
+
+  const [formValid, setFormValid] = useState(true);
+
+  const history = useHistory();
 
   const inputChangeHandler = (e) => {
     const { name, value, type, checked } = e.target;
 
     if (type === "checkbox") {
       const updatedAddIng = checked
-        ? [...purorder.addIng, name]
-        : purorder.addIng.filter((item) => item !== name);
+        ? [...purorder.addIng, value]
+        : purorder.addIng.filter((item) => item !== value);
 
       setPurorder((prevPurorder) => ({
         ...prevPurorder,
@@ -61,34 +76,96 @@ const OrderForm = ({ order = emptyOrder }) => {
       }));
     }
 
-    console.log("Checked", checked);
+    if (type === "checkbox") {
+    } else {
+    }
+    checkValidationFor(name, value);
+
     console.log("Name", name);
     console.log("Value", value);
   };
 
-  const addOrder = () => {
+  const incOrder = () => {
     setCounter(counter + 1);
   };
-  const remOrder = () => {
-    setCounter(counter - 1);
+  const decOrder = () => {
+    if (counter > 0) {
+      setCounter(counter - 1);
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+    }
   };
 
   const formSubmit = (e) => {
     e.preventDefault();
-    console.log("FORM SUBMİT EDİLDİ");
-    console.log("Order", purorder);
 
-    axios
-      .post("https://reqres.in/api/users", purorder)
-      .then((res) => {
-        console.log("Data", res.data);
-        console.log("Status", res.status);
+    for (let key in purorder) {
+      console.log("checkValidationFor(key, member[key] >", key, purorder[key]);
+      checkValidationFor(key, purorder[key]);
+    }
+
+    if (formValid) {
+      console.log("FORM SUBMİT EDİLDİ");
+      console.log("Order", purorder);
+
+      axios
+        .post("https://reqres.in/api/orders", purorder)
+        .then((res) => {
+          console.log("Sipariş başarıyla kaydedildi");
+          console.log("Data", res.data);
+          console.log("Status", res.status);
+
+          history.push("/order-complete");
+        })
+        .catch((err) => console.log("Error", err));
+    }
+  };
+
+  const orderFormSchema = Yup.object().shape({
+    size: Yup.string(),
+    dough: Yup.string(),
+    extra: Yup.number()
+      .min(20, "En az 4 malzeme seçmeniz gerekir")
+      .max(50, "En fazla 10 malzeme seçebilirsiniz"),
+    addIng: Yup.mixed(),
+    name: Yup.string()
+      .min(3, "En az 3 karakter girmeniz gerekiyor")
+      .required("İsim girmeniz gerekiyor"),
+    orderNote: Yup.string(),
+
+    totalPrice: Yup.number(),
+  });
+
+  const checkValidationFor = (field, value) => {
+    Yup.reach(orderFormSchema, field)
+      .validate(value)
+      .then(() => {
+        setFormErrors((prevFormErrors) => ({
+          ...prevFormErrors,
+          [field]: "",
+        }));
       })
-      .catch((err) => console.log("Error", err));
+      .catch((err) => {
+        console.log("HATA!", field, err.errors[0]);
+        setFormErrors((prevFormErrors) => ({
+          ...prevFormErrors,
+          [field]: err.errors[0],
+        }));
+      });
   };
 
   useEffect(() => {
+    console.error("form error", formErrors);
+  }, [formErrors]);
+
+  useEffect(() => {
     console.log("Purorder", purorder);
+    console.log("orderFormSchema is valid >", formValid);
+    orderFormSchema.isValid(purorder).then((valid) => setFormValid(valid));
   }, [purorder]);
 
   useEffect(() => {
@@ -185,20 +262,41 @@ const OrderForm = ({ order = emptyOrder }) => {
         </label>
         <div className="flex flex-wrap ">
           {toppings.map((top, index) => (
-            <div className="flex  items-baseline w-1/3">
+            <div className="flex  items-baseline w-1/3" key={index}>
               {" "}
               <input
-                key={index}
                 type="checkbox"
-                name={top}
+                name="addIng"
+                value={top}
                 onClick={(e) => {
                   inputChangeHandler(e);
                 }}
               />{" "}
-              {top}{" "}
+              {top}
             </div>
           ))}
         </div>
+        {formErrors.extra && (
+          <div className="text-red-500">{formErrors.extra}</div>
+        )}
+        <hr />
+        <label>
+          {" "}
+          İsim alanı{" "}
+          <input
+            id="name-input"
+            className="border border-black border-2"
+            type="text"
+            name="name"
+            onKeyDown={handleKeyPress}
+            value={purorder.name}
+            onChange={inputChangeHandler}
+            placeholder="Lütfen isminizi yazınız."
+          />{" "}
+        </label>
+        {formErrors.name && (
+          <div className="text-red-500"> {formErrors.name} </div>
+        )}
         <label>
           {" "}
           <h4>Sipariş Notu</h4>
@@ -208,16 +306,19 @@ const OrderForm = ({ order = emptyOrder }) => {
             type="text"
             name="orderNote"
             value={purorder.orderNote}
+            onKeyDown={handleKeyPress}
             onChange={inputChangeHandler}
             placeholder="Siparişine eklemek istediğin bir not var mı?"
           />
         </label>
+
         <div className="flex justify-between">
           <div>
             <button
               className="bg-blue-500 text-white"
+              disabled={counter === 0}
               onClick={(e) => {
-                remOrder();
+                decOrder();
                 e.preventDefault();
               }}
             >
@@ -228,7 +329,7 @@ const OrderForm = ({ order = emptyOrder }) => {
             <button
               className="bg-blue-500 text-white"
               onClick={(e) => {
-                addOrder();
+                incOrder();
                 e.preventDefault();
               }}
             >
@@ -242,7 +343,7 @@ const OrderForm = ({ order = emptyOrder }) => {
             Toplam Fiyat {purorder.totalPrice ? purorder.totalPrice : "0"}₺{" "}
           </div>
         </div>
-        <button id="submit-button" type="submit">
+        <button id="order-button" type="submit">
           {" "}
           Sipariş Ver
         </button>

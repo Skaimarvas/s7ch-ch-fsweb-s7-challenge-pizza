@@ -2,7 +2,7 @@ import React from "react";
 import OrderForm from "../components/OrderForm";
 import Header from "../layouts/Header";
 
-const OrderPage = () => {
+const OrderPage = ({ fetchorders }) => {
   return (
     <div className="bg-white">
       <Header />
@@ -24,7 +24,7 @@ const OrderPage = () => {
           lezzetli bir yemektir. . Küçük bir pizzaya bazen pizzetta denir.
         </p>
 
-        <OrderForm />
+        <OrderForm fetchorders={fetchorders} />
       </div>
     </div>
   );
