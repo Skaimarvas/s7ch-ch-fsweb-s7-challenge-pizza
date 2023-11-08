@@ -185,10 +185,10 @@ const OrderForm = ({ order = emptyOrder, fetchorders }) => {
   return (
     <div className="bg-white">
       <form id="pizza-form" onSubmit={formSubmit}>
-        <div className="flex justify-between">
-          <div className="flex flex-col">
+        <div className="flex justify-between pb-5">
+          <div className="flex flex-col items-baseline ">
             <label>
-              <h4> Boyut Seç </h4>
+              <h4 className="font-bold"> Boyut Seç </h4>
             </label>
             <div>
               <input
@@ -202,7 +202,7 @@ const OrderForm = ({ order = emptyOrder, fetchorders }) => {
                   inputChangeHandler(e);
                 }}
               />
-              Küçük
+              <span style={{ color: "#5F5F5F" }}>Küçük</span>
             </div>
             <div>
               <input
@@ -216,7 +216,7 @@ const OrderForm = ({ order = emptyOrder, fetchorders }) => {
                   inputChangeHandler(e);
                 }}
               />
-              Orta
+              <span style={{ color: "#5F5F5F" }}>Orta</span>
             </div>
 
             <div>
@@ -231,14 +231,14 @@ const OrderForm = ({ order = emptyOrder, fetchorders }) => {
                   inputChangeHandler(e);
                 }}
               />
-              Büyük
+              <span style={{ color: "#5F5F5F" }}>Büyük</span>
             </div>
           </div>
 
           <div className="flex flex-col">
             <label>
               {" "}
-              <h4> Hamur Seç </h4>{" "}
+              <h4 className="font-bold"> Hamur Seç </h4>{" "}
             </label>
             <select
               id="dough-thick"
@@ -257,10 +257,12 @@ const OrderForm = ({ order = emptyOrder, fetchorders }) => {
         </div>
 
         <label>
-          <h4>Ek Malzemeler</h4>
-          En fazla 10 malzeme seçebilirsiniz. 5₺
+          <h4 className="text-left pb-2">Ek Malzemeler</h4>
+          <p className="text-left pb-2">
+            En fazla 10 malzeme seçebilirsiniz. 5₺
+          </p>
         </label>
-        <div className="flex flex-wrap ">
+        <div className="flex flex-wrap pb-10">
           {toppings.map((top, index) => (
             <div className="flex  items-baseline w-1/3" key={index}>
               {" "}
@@ -275,14 +277,15 @@ const OrderForm = ({ order = emptyOrder, fetchorders }) => {
               {top}
             </div>
           ))}
+          {formErrors.extra && (
+            <div className="text-red-500">{formErrors.extra}</div>
+          )}
         </div>
-        {formErrors.extra && (
-          <div className="text-red-500">{formErrors.extra}</div>
-        )}
+
         <hr />
         <label>
           {" "}
-          İsim alanı{" "}
+          <p className="text-left">İsim alanı</p>{" "}
           <input
             id="name-input"
             className="border border-black border-2"
@@ -299,9 +302,9 @@ const OrderForm = ({ order = emptyOrder, fetchorders }) => {
         )}
         <label>
           {" "}
-          <h4>Sipariş Notu</h4>
+          <h4 className="text-left">Sipariş Notu</h4>
           <input
-            className="w-full border border-black border-2"
+            className="w-full h-20 border border-black border-2"
             id="special-text"
             type="text"
             name="orderNote"
@@ -315,7 +318,19 @@ const OrderForm = ({ order = emptyOrder, fetchorders }) => {
         <div className="flex justify-between">
           <div>
             <button
-              className="bg-blue-500 text-white"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-md "
+              onClick={(e) => {
+                incOrder();
+                e.preventDefault();
+              }}
+            >
+              {" "}
+              <div>+</div>{" "}
+            </button>
+            <span>{counter}</span>
+
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-md "
               disabled={counter === 0}
               onClick={(e) => {
                 decOrder();
@@ -323,30 +338,27 @@ const OrderForm = ({ order = emptyOrder, fetchorders }) => {
               }}
             >
               {" "}
-              <div>-</div>{" "}
-            </button>
-            {counter}
-            <button
-              className="bg-blue-500 text-white"
-              onClick={(e) => {
-                incOrder();
-                e.preventDefault();
-              }}
-            >
-              {" "}
-              <div>+</div>
+              <div>-</div>
             </button>
           </div>
-          <div> Ek Malzemeler {purorder.extra ? purorder.extra : "0"}₺ </div>
-          <div>
-            {" "}
-            Toplam Fiyat {purorder.totalPrice ? purorder.totalPrice : "0"}₺{" "}
+          <div className="flex flex-col">
+            <div> Pizza Fiyatı {price ? price : "0"}₺ </div>
+            <div> Ek Malzemeler {purorder.extra ? purorder.extra : "0"}₺ </div>
+            <div>
+              {" "}
+              Toplam Fiyat {purorder.totalPrice
+                ? purorder.totalPrice
+                : "0"}₺{" "}
+            </div>
+            <div>
+              {" "}
+              <button id="order-button" type="submit">
+                {" "}
+                Sipariş Ver
+              </button>
+            </div>
           </div>
         </div>
-        <button id="order-button" type="submit">
-          {" "}
-          Sipariş Ver
-        </button>
       </form>
     </div>
   );

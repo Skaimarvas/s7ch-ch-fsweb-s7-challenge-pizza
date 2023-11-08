@@ -16,12 +16,13 @@ const Header = () => {
         alt="logo"
         style={imageStyle1}
       />
-      <Link to="/">
-        {" "}
-        <p>Anasayfa</p>{" "}
-      </Link>
-      <p>Seçenekler</p>
-      <p>Sipariş Oluştur</p>
+      <div className="flex justify-center">
+        <Link to="/">
+          {" "}
+          <p>Anasayfa</p>{" "}
+        </Link>
+        -<p>Sipariş Oluştur</p>
+      </div>
     </div>
   );
 };
