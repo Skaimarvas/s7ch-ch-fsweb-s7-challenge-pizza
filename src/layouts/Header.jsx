@@ -9,7 +9,7 @@ const Header = () => {
   };
 
   return (
-    <div className="mt-10" style={{ backgroundColor: "#ce2829" }}>
+    <div className="mt-0" style={{ backgroundColor: "#ce2829" }}>
       <img
         className="mx-auto my-auto"
         src={logo}

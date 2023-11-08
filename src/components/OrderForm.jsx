@@ -21,19 +21,22 @@ const toppings = [
 ];
 
 const emptyOrder = {
-  size: "md",
+  size: "M",
   dough: "nl",
   addIng: [],
   name: "",
   orderNote: "",
-  extra: "",
-  totalPrice: "",
+  extra: 0,
+  totalPrice: 0,
 };
+
+const pizzaSize = ["S", "M", "L"];
+const doughSize = ["th", "nl", "tc"];
 
 const OrderForm = ({ order = emptyOrder, fetchorders }) => {
   const [counter, setCounter] = useState(1);
 
-  const [size, setSize] = useState("md");
+  const [size, setSize] = useState("M");
 
   const [price, setPrice] = useState(85.5);
 
@@ -76,9 +79,6 @@ const OrderForm = ({ order = emptyOrder, fetchorders }) => {
       }));
     }
 
-    if (type === "checkbox") {
-    } else {
-    }
     checkValidationFor(name, value);
 
     console.log("Name", name);
@@ -130,7 +130,8 @@ const OrderForm = ({ order = emptyOrder, fetchorders }) => {
     dough: Yup.string(),
     extra: Yup.number()
       .min(20, "En az 4 malzeme seçmeniz gerekir")
-      .max(50, "En fazla 10 malzeme seçebilirsiniz"),
+      .max(50, "En fazla 10 malzeme seçebilirsiniz")
+      .required("Malzeme seçmeniz gerekiyor"),
     addIng: Yup.mixed(),
     name: Yup.string()
       .min(3, "En az 3 karakter girmeniz gerekiyor")
@@ -170,7 +171,7 @@ const OrderForm = ({ order = emptyOrder, fetchorders }) => {
 
   useEffect(() => {
     const doughFactor = dough === "th" ? 0.8 : dough === "nl" ? 1 : 1.2;
-    const sizeFactor = size === "sm" ? 0.8 : size === "md" ? 1 : 1.2;
+    const sizeFactor = size === "S" ? 0.8 : size === "M" ? 1 : 1.2;
     const newTotal =
       price * counter * doughFactor * sizeFactor + purorder.extra;
 
@@ -185,63 +186,48 @@ const OrderForm = ({ order = emptyOrder, fetchorders }) => {
   return (
     <div className="bg-white">
       <form id="pizza-form" onSubmit={formSubmit}>
-        <div className="flex justify-between pb-5">
-          <div className="flex flex-col items-baseline ">
-            <label>
-              <h4 className="font-bold"> Boyut Seç </h4>
-            </label>
-            <div>
-              <input
-                id="radio-sm"
-                name="size"
-                type="radio"
-                checked={size === "sm" ? true : false}
-                value={"sm"}
-                onChange={(e) => {
-                  setSize(e.target.value);
-                  inputChangeHandler(e);
-                }}
-              />
-              <span style={{ color: "#5F5F5F" }}>Küçük</span>
-            </div>
-            <div>
-              <input
-                id="radio-md"
-                name="size"
-                type="radio"
-                checked={size === "md" ? true : false}
-                value={"md"}
-                onChange={(e) => {
-                  setSize(e.target.value);
-                  inputChangeHandler(e);
-                }}
-              />
-              <span style={{ color: "#5F5F5F" }}>Orta</span>
-            </div>
+        <div className="flex flex-wrap  mb-10">
+          <div className="flex flex-col " style={{ marginRight: "7rem" }}>
+            <h4 className="font-bold text-left">
+              {" "}
+              Boyut Seç <span className="text-red-500">*</span>{" "}
+            </h4>
 
-            <div>
-              <input
-                id="radio-lg"
-                name="size"
-                type="radio"
-                checked={size === "lg" ? true : false}
-                value={"lg"}
-                onChange={(e) => {
-                  setSize(e.target.value);
-                  inputChangeHandler(e);
-                }}
-              />
-              <span style={{ color: "#5F5F5F" }}>Büyük</span>
+            <div className="flex items-baseline">
+              {pizzaSize.map((psize, index) => (
+                <label>
+                  <div key={index} className="pb-2">
+                    {" "}
+                    <input
+                      id={`radio-${psize}`}
+                      name="size"
+                      className={`pizzasize ${
+                        size === psize ? "selected" : ""
+                      }`}
+                      type="button"
+                      value={psize}
+                      onClick={(e) => {
+                        setSize(e.target.value);
+                        inputChangeHandler(e);
+                      }}
+                    />{" "}
+                  </div>
+                </label>
+              ))}
             </div>
           </div>
 
           <div className="flex flex-col">
-            <label>
+            <label htmlFor="dough-thick">
               {" "}
-              <h4 className="font-bold"> Hamur Seç </h4>{" "}
+              <h4 className="font-bold text-left">
+                {" "}
+                Hamur Seç <span className="text-red-500">*</span>{" "}
+              </h4>{" "}
             </label>
             <select
               id="dough-thick"
+              className="doughsize"
               value={dough}
               name="dough"
               onChange={(e) => {
@@ -249,32 +235,42 @@ const OrderForm = ({ order = emptyOrder, fetchorders }) => {
                 inputChangeHandler(e);
               }}
             >
-              <option value={"th"}>İnce</option>
-              <option value={"nl"}>Normal</option>
-              <option value={"tc"}>Kalın</option>
+              {doughSize.map((dough) => (
+                <option value={dough}>
+                  {" "}
+                  {dough === "th"
+                    ? "İnce"
+                    : dough === "nl"
+                    ? "Normal"
+                    : "Kalın"}{" "}
+                </option>
+              ))}
             </select>
           </div>
         </div>
 
-        <label>
-          <h4 className="text-left pb-2">Ek Malzemeler</h4>
-          <p className="text-left pb-2">
-            En fazla 10 malzeme seçebilirsiniz. 5₺
-          </p>
-        </label>
-        <div className="flex flex-wrap pb-10">
+        <h4 className="text-left font-bold pb-2">Ek Malzemeler</h4>
+        <p className="text-left  pb-2" style={{ color: "#5F5F5F" }}>
+          En fazla 10 malzeme seçebilirsiniz. 5₺
+        </p>
+
+        <div className="flex flex-wrap  items-baseline  pb-10">
           {toppings.map((top, index) => (
-            <div className="flex  items-baseline w-1/3" key={index}>
-              {" "}
-              <input
-                type="checkbox"
-                name="addIng"
-                value={top}
-                onClick={(e) => {
-                  inputChangeHandler(e);
-                }}
-              />{" "}
-              {top}
+            <div key={index} className="pr-20">
+              <label className="malzemeler ">
+                {" "}
+                <input
+                  id="add"
+                  type="checkbox"
+                  name="addIng"
+                  value={top}
+                  onClick={(e) => {
+                    inputChangeHandler(e);
+                  }}
+                />{" "}
+                <span className="checkmark"></span>
+                {top}
+              </label>
             </div>
           ))}
           {formErrors.extra && (
@@ -282,13 +278,12 @@ const OrderForm = ({ order = emptyOrder, fetchorders }) => {
           )}
         </div>
 
-        <hr />
-        <label>
+        <label className="mb-3">
           {" "}
-          <p className="text-left">İsim alanı</p>{" "}
+          <h4 className="text-left  font-bold mb-3">İsim</h4>
           <input
             id="name-input"
-            className="border border-black border-2"
+            className="namearea w-full p-2 mb-3"
             type="text"
             name="name"
             onKeyDown={handleKeyPress}
@@ -298,27 +293,25 @@ const OrderForm = ({ order = emptyOrder, fetchorders }) => {
           />{" "}
         </label>
         {formErrors.name && (
-          <div className="text-red-500"> {formErrors.name} </div>
+          <div className="text-red-500 mb-3"> {formErrors.name} </div>
         )}
-        <label>
-          {" "}
-          <h4 className="text-left">Sipariş Notu</h4>
-          <input
-            className="w-full h-20 border border-black border-2"
-            id="special-text"
-            type="text"
-            name="orderNote"
-            value={purorder.orderNote}
-            onKeyDown={handleKeyPress}
-            onChange={inputChangeHandler}
-            placeholder="Siparişine eklemek istediğin bir not var mı?"
-          />
-        </label>
 
-        <div className="flex justify-between">
-          <div>
+        <h4 className="text-left font-bold mb-3">Sipariş Notu</h4>
+        <textarea
+          className="w-full h-20 textarea p-4 mb-5"
+          name="orderNote"
+          value={purorder.orderNote}
+          onChange={inputChangeHandler}
+          onKeyDown={handleKeyPress}
+          placeholder="Siparişinize eklemek istediğin bir not var mı?"
+        ></textarea>
+        <hr />
+
+        <div className="flex flex-wrap justify-between">
+          <div className="mt-3 mb-10 mx-3">
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-md "
+              className="text-white font-bold py-3 px-6 rounded-lg shadow-md "
+              style={{ backgroundColor: "#FDC913" }}
               onClick={(e) => {
                 incOrder();
                 e.preventDefault();
@@ -327,10 +320,11 @@ const OrderForm = ({ order = emptyOrder, fetchorders }) => {
               {" "}
               <div>+</div>{" "}
             </button>
-            <span>{counter}</span>
+            <span className="py-3 px-6">{counter}</span>
 
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-md "
+              className="text-white font-bold py-3 px-6 rounded-lg shadow-md"
+              style={{ backgroundColor: "#FDC913" }}
               disabled={counter === 0}
               onClick={(e) => {
                 decOrder();
@@ -341,20 +335,33 @@ const OrderForm = ({ order = emptyOrder, fetchorders }) => {
               <div>-</div>
             </button>
           </div>
-          <div className="flex flex-col">
-            <div> Pizza Fiyatı {price ? price : "0"}₺ </div>
-            <div> Ek Malzemeler {purorder.extra ? purorder.extra : "0"}₺ </div>
-            <div>
-              {" "}
-              Toplam Fiyat {purorder.totalPrice
-                ? purorder.totalPrice
-                : "0"}₺{" "}
+          <div className="flex flex-col  mt-3 mb-10 mx-3  ordertotal">
+            <div className="m-10">
+              <div className="flex justify-between mb-5">
+                <h3 className="text-1xl font-semibold">Sipariş Toplamı</h3>
+              </div>
+              <div className="flex justify-between py-2">
+                <p>Seçimler</p>
+                <p>{purorder.extra ? purorder.extra : "0"}₺</p>{" "}
+              </div>
+              <div className="flex justify-between py-2 ">
+                <p className="text-red-500"> Toplam Fiyat</p>
+                <p className="text-red-500">
+                  {" "}
+                  {purorder.totalPrice ? purorder.totalPrice : "0"}₺{" "}
+                </p>
+              </div>
             </div>
             <div>
               {" "}
-              <button id="order-button" type="submit">
+              <button
+                id="order-button"
+                className="w-full  font-bold py-2 px-20  shadow-md m-0 "
+                style={{ backgroundColor: "#FDC913" }}
+                type="submit"
+              >
                 {" "}
-                Sipariş Ver
+                SİPARİŞ VER
               </button>
             </div>
           </div>

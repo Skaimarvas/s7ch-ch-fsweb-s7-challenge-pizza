@@ -4,11 +4,11 @@ import Header from "../layouts/Header";
 
 const OrderPage = ({ fetchorders }) => {
   return (
-    <div className="bg-white ">
+    <div className="bg-white">
       <Header />
       <div
-        className="flex flex-start flex-col max-w-md"
-        style={{ margin: "0 auto", height: "100vh" }}
+        className="flex  flex-col"
+        style={{ margin: "0 auto", height: "100%", maxWidth: "40rem" }}
       >
         <h3 className="text-1xl font-semibold text-left py-5">
           Position Absolute Acı Pizza

@@ -6,6 +6,7 @@ const HomePage = () => {
   const imageStyle = {
     maxWidth: "900px",
     maxHeight: "350px",
+    width: "70%",
   };
   const imageStyle1 = {
     width: "250px",
