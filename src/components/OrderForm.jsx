@@ -273,10 +273,10 @@ const OrderForm = ({ order = emptyOrder, fetchorders }) => {
               </label>
             </div>
           ))}
-          {formErrors.extra && (
-            <div className="text-red-500">{formErrors.extra}</div>
-          )}
         </div>
+        {formErrors.extra && (
+          <div className="text-red-500">{formErrors.extra}</div>
+        )}
 
         <label className="mb-3">
           {" "}
@@ -320,7 +320,7 @@ const OrderForm = ({ order = emptyOrder, fetchorders }) => {
               {" "}
               <div>+</div>{" "}
             </button>
-            <span className="py-3 px-6">{counter}</span>
+            <span className="py-3 px-6 counterspan">{counter}</span>
 
             <button
               className="text-white font-bold py-3 px-6 rounded-lg shadow-md"
