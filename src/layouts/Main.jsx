@@ -2,10 +2,14 @@ import React from "react";
 import Footer from "./Footer";
 import PageContent from "./PageContent";
 
-const Main = () => {
+const Main = ({ fetchorders, orders, setOrders }) => {
   return (
     <div>
-      <PageContent />
+      <PageContent
+        fetchorders={fetchorders}
+        orders={orders}
+        setOrders={setOrders}
+      />
 
       <Footer />
     </div>

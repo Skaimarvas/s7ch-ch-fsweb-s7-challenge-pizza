@@ -1,7 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Barlow:wght@500&family=Bebas+Neue&display=swap");
 
-@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
-
 @import url("https://fonts.googleapis.com/css2?family=Satisfy&display=swap");
 
 @import url("https://fonts.googleapis.com/css2?family=Quattrocento&display=swap");
@@ -314,4 +312,58 @@ body {
 .insh4 {
   font-size: 20px;
   text-align: left;
+}
+
+.orderpage {
+  margin: 0 auto;
+  height: 100%;
+  max-width: 40rem;
+}
+
+.orderdescription {
+  background-color: #faf7f2;
+}
+
+.createorder {
+  color: #ce2829;
+}
+
+.headerbg {
+  background-color: #ce2829;
+}
+
+.ordercomplete {
+  background-color: #ce2829;
+  height: 100vh;
+}
+
+.completemsg {
+  font-size: 3.5rem;
+  line-height: 60px;
+  color: white;
+}
+
+.completemsg1 {
+  font-family: "Satisfy", cursive;
+  color: #fdc913;
+  font-size: 2em;
+}
+
+.detail {
+  width: 250px;
+  height: 200px;
+}
+
+.detail p {
+  color: #eeeeee;
+}
+
+.detail span {
+  color: white;
+  font-weight: bolder;
+}
+
+.total {
+  color: white;
+  border: 1px solid white;
 }

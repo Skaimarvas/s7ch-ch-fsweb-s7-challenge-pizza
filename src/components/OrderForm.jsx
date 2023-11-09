@@ -33,7 +33,7 @@ const emptyOrder = {
 const pizzaSize = ["S", "M", "L"];
 const doughSize = ["th", "nl", "tc"];
 
-const OrderForm = ({ order = emptyOrder, fetchorders }) => {
+const OrderForm = ({ order = emptyOrder, fetchorders, setOrders }) => {
   const [counter, setCounter] = useState(1);
 
   const [size, setSize] = useState("M");
@@ -118,7 +118,7 @@ const OrderForm = ({ order = emptyOrder, fetchorders }) => {
           console.log("Sipariş başarıyla kaydedildi");
           console.log("Data", res.data);
           console.log("Status", res.status);
-
+          setOrders(purorder);
           history.push("/order-complete");
         })
         .catch((err) => console.log("Error", err));

@@ -20,7 +20,7 @@ function App() {
 
   return (
     <>
-      <Main orders={orders} fetchorders={fetchorders} />
+      <Main orders={orders} setOrders={setOrders} fetchorders={fetchorders} />
     </>
   );
 }
