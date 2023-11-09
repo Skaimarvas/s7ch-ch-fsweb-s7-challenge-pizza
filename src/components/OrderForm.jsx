@@ -33,7 +33,7 @@ const emptyOrder = {
 const pizzaSize = ["S", "M", "L"];
 const doughSize = ["th", "nl", "tc"];
 
-const OrderForm = ({ order = emptyOrder, fetchorders, setOrders }) => {
+const OrderForm = ({ order = emptyOrder, setOrders }) => {
   const [counter, setCounter] = useState(1);
 
   const [size, setSize] = useState("M");
@@ -57,6 +57,9 @@ const OrderForm = ({ order = emptyOrder, fetchorders, setOrders }) => {
   const [formValid, setFormValid] = useState(true);
 
   const history = useHistory();
+
+  const totalprice = purorder.totalPrice;
+  const extraprice = purorder.extra;
 
   const inputChangeHandler = (e) => {
     const { name, value, type, checked } = e.target;
@@ -298,6 +301,7 @@ const OrderForm = ({ order = emptyOrder, fetchorders, setOrders }) => {
 
         <h4 className="text-left font-bold mb-3">Sipariş Notu</h4>
         <textarea
+          id="special-text"
           className="w-full h-20 textarea p-4 mb-5"
           name="orderNote"
           value={purorder.orderNote}
@@ -342,13 +346,13 @@ const OrderForm = ({ order = emptyOrder, fetchorders, setOrders }) => {
               </div>
               <div className="flex justify-between py-2">
                 <p>Seçimler</p>
-                <p>{purorder.extra ? purorder.extra : "0"}₺</p>{" "}
+                <p>{purorder.extra ? extraprice.toFixed(2) : "0"}₺</p>{" "}
               </div>
               <div className="flex justify-between py-2 ">
                 <p className="text-red-500"> Toplam Fiyat</p>
                 <p className="text-red-500">
                   {" "}
-                  {purorder.totalPrice ? purorder.totalPrice : "0"}₺{" "}
+                  {purorder.totalPrice ? totalprice.toFixed(2) : "0"}₺{" "}
                 </p>
               </div>
             </div>
