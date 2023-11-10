@@ -231,6 +231,7 @@ const OrderForm = ({ order = emptyOrder, setOrders }) => {
             <select
               id="dough-thick"
               className="doughsize"
+              type="option"
               value={dough}
               name="dough"
               onChange={(e) => {

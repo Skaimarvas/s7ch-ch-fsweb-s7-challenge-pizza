@@ -11,16 +11,9 @@ library.add(fab.faTwitter);
 function App() {
   const [orders, setOrders] = useState([]);
 
-  const fetchorders = () => {
-    axios.get("https://reqres.in/api/orders/").then((res) => {
-      setOrders(res.data);
-      return res.data;
-    });
-  };
-
   return (
     <>
-      <Main orders={orders} setOrders={setOrders} fetchorders={fetchorders} />
+      <Main orders={orders} setOrders={setOrders} />
     </>
   );
 }

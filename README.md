@@ -122,9 +122,9 @@ veya
 Çalışmanı gözden geçirmek, iyileştirmek ve değerlendirmek için zaman planlamanı ve yazım denetimi ve dilbilgisi denetimi de temel düzeltmeler yapmanı tavsiye ederiz. MVP'yi karşılayan bir challenge göndermek, yanlış sırayla yapılmış, karmaşıklaşmış ve ama çalışmayan bir proje göndermenden daha iyi olduğunu hatırlatmak isteriz.
 Cypress'le projenize şu testleri ekleyin:
 
-- [ ] inputa bir metin giren test
-- [ ] birden fazla malzeme seçilebilen bir test
-- [ ] formu gönderen bir test
+- [x] inputa bir metin giren test
+- [x] birden fazla malzeme seçilebilen bir test
+- [x] formu gönderen bir test
 
 Cypress kurulumu için `npm install cypress --save-dev` komutunu gir ve `npx cypress open` yaz. Bu, "Cypress 10'a Hoş Geldiniz!" başlığı ve altında "Cypress 10'a Devam Et" yazan buton içeren bir diyalog açacaktır. Bu butona tıkla, ardından bir sonraki ekranın en altına git ve arka arkaya üç geçiş butonuna tıkla (birini tıkladıktan sonra sonraki bölüm genişleyecek ve bir sonraki geçiş seçimini tıklamana izin verecek). Bir sonraki ekranda 'e2e''yi seç ve bir sonraki ekranda da 'Scaffold Example Specs' seçeneğini seçip, ardından istediğin bir tarayıcı ile 'E2E Testini Başlat' butonuna basarak, testleri çalıştırabilirsin.
 Tarayıcı açıldıktan sonra da, VSCode'da yeni oluşturduğun cypress klasöründe, e2e klasörüne git ve `pizza.cy.js` adlı yeni bir dosya oluştur. Artık testlerini yazmaya hazırsın! (Dosya isminde ".cy" olduğundan emin ol, aksi takdirde Cypress testlerini bulamaz!)

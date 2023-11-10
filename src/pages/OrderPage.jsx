@@ -4,7 +4,7 @@ import Header from "../layouts/Header";
 import banner from "../Assets/adv-aseets/adv-form-banner.png";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
-const OrderPage = ({ fetchorders, setOrders }) => {
+const OrderPage = ({ setOrders }) => {
   return (
     <>
       <div className="orderdescription">
@@ -48,7 +48,7 @@ const OrderPage = ({ fetchorders, setOrders }) => {
         </div>
       </div>
       <div className="flex flex-col orderpage">
-        <OrderForm fetchorders={fetchorders} setOrders={setOrders} />
+        <OrderForm setOrders={setOrders} />
       </div>
     </>
   );

@@ -2,16 +2,11 @@ import React from "react";
 import Footer from "./Footer";
 import PageContent from "./PageContent";
 
-const Main = ({ fetchorders, orders, setOrders }) => {
+const Main = ({ orders, setOrders }) => {
   return (
     <div>
-      <PageContent
-        fetchorders={fetchorders}
-        orders={orders}
-        setOrders={setOrders}
-      />
-
-      <Footer />
+      <PageContent orders={orders} setOrders={setOrders} />
+      {window.location.pathname !== "/order-complete" ? <Footer /> : ""}
     </div>
   );
 };
