@@ -6,20 +6,18 @@ import OrderComplete from "../pages/OrderComplete";
 const PageContent = ({ orders, setOrders }) => {
   return (
     <Router>
-      <div>
-        <Switch>
-          <Route path="/pizza" exact>
-            <OrderPage setOrders={setOrders} orders={orders} />
-          </Route>
-          <Route path="/order-complete" exact>
-            <OrderComplete orders={orders} />
-          </Route>
+      <Switch>
+        <Route path="/pizza" exact>
+          <OrderPage setOrders={setOrders} orders={orders} />
+        </Route>
+        <Route path="/order-complete" exact>
+          <OrderComplete orders={orders} />
+        </Route>
 
-          <Route path="/">
-            <Homepage />
-          </Route>
-        </Switch>
-      </div>
+        <Route path="/">
+          <Homepage />
+        </Route>
+      </Switch>
     </Router>
   );
 };

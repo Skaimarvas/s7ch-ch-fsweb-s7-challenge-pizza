@@ -52,7 +52,7 @@ const OrderComplete = ({ orders }) => {
           Not: <span> {orders.orderNote} </span>
         </p>
       </div>
-      <div className="flex flex-col justify-between  total px-20 py-7">
+      <div className="flex flex-col justify-between  total px-20 py-7 mb-10">
         {" "}
         <div>
           <h4 className="text-2xl">Siparişler Toplamı</h4>
