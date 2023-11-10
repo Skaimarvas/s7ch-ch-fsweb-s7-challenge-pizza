@@ -121,7 +121,7 @@ const OrderForm = ({ order = emptyOrder, setOrders }) => {
           console.log("Sipariş başarıyla kaydedildi");
           console.log("Data", res.data);
           console.log("Status", res.status);
-          setOrders(purorder);
+          setOrders(res.data);
           history.push("/order-complete");
         })
         .catch((err) => console.log("Error", err));

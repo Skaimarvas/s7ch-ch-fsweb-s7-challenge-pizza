@@ -31,7 +31,7 @@ const OrderComplete = ({ orders }) => {
         <p>
           Hamur:
           <span>
-            Süpper
+            Süpper{" "}
             {orders.dough === "th"
               ? "İnce"
               : orders.dough === "nl"
@@ -44,7 +44,7 @@ const OrderComplete = ({ orders }) => {
           {orders.addIng.map((item, index) => (
             <span key={index}>
               {item}
-              {index !== orders.addIng.length - 1 ? "," + " " : ""}
+              {index !== orders.addIng.length - 1 ? `, ` : ""}
             </span>
           ))}
         </p>
